@@ -1,0 +1,217 @@
+{% extends '../base.html' %}
+
+
+{% block content %}
+<br>
+
+<div class="my-account">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+          <a class="nav-link active" id="dashboard-nav" data-toggle="pill" href="#dashboard-tab" role="tab"><i
+              class="fa fa-tachometer-alt"></i>Dashboard</a>
+          <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i
+              class="fa fa-shopping-bag"></i>Orders</a>
+          <a class="nav-link" id="payment-nav" data-toggle="pill" href="#payment-tab" role="tab"><i
+              class="fa fa-credit-card"></i>Message from admin</a>
+       
+          <a class="nav-link" id="account-nav" data-toggle="pill" href="#account-tab" role="tab"><i
+              class="fa fa-user"></i>Account Details</a>
+          <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out-alt"></i>Logout</a>
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <div class="tab-content">
+
+          <div class="tab-pane fade show active" id="dashboard-tab" role="tabpanel" aria-labelledby="dashboard-nav">
+            <section>
+              <div class="container">
+            
+            
+            
+                <div class="row">
+            
+                  <div class="col-lg-8">
+                    <div class="card mb-4">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Full name</p>
+            
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0"><span style="color:#2980b9;">{{customers.first_name}} {{customers.last_name}}</span></p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Email</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0"><span style="color:#2980b9;">{{user}}</span></p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Phone</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0"><span style="color:#2980b9;">{{user.phone_no}}</span></p>
+                          </div>
+                        </div>
+                        <hr>
+            
+                       
+                      </div>
+                    </div>
+            
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+
+          <div class="tab-pane fade" id="orders-tab" role="tabpanel" aria-labelledby="orders-nav">
+
+            <div class="text-center">
+              <h2>YOUR ORDERS</h2>
+            </div>
+
+            <div class="row">
+              {% for order in orders %}
+              <div class="col-md-6">
+
+                <div class="card">
+
+                  <div class="card-header text-white" style="background-color: #153f5b;">
+                    ORDER NO. {{ order }}
+                    {% if order.status == True  %}
+                        
+                    {% if order.payment_status == True or order.cod == True  %}
+
+                    <a href="{% url 'gen_pdf' pd=order.id %}" target="_blank" class="btn btn-sm btn-success">Generate INVOICE</a>
+                    
+                    {% else %}
+                    
+                    <span style="color:red">The order was Failed hence no INVOICE</span>
+                    
+                    {% endif %}
+                    {% endif %}
+                   
+                  </div>
+                  {% for iteme in itemes%}
+
+                  {% if iteme.Order == order %}
+                  <div class="card-body">
+
+                    <p class="card-text">
+                      PRODUCT:<span style="color:#2980b9;">{{iteme.Product.title}} </span><br>
+                      QUANTITY:<span style="color:#2980b9;">{{iteme.quantity}} </span><br>
+                      PRICE:<span style="color:#2980b9;">{{ order.price }} </span>
+                      status:<span style="color:#2980b9;">
+                        {% if order.status == True  %}
+                        
+                        {% if order.payment_status == True or order.cod == True  %}
+
+                        <span style="color:green">The order was Success</span>
+
+                        {% if order.cod == True %}
+                        this was paid via COD
+                        {% else %}
+                        this was paid online
+                        {% endif %}
+
+                       
+                        {% else %}
+                        <span style="color:red">The order was Faliure</span>
+                        {% endif %}
+                        {% endif %}
+                       
+                      </span>
+                    </p>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+
+
+                </div>
+              </div>
+
+              {% endfor %}
+
+            </div>
+          </div>
+
+
+
+
+
+          <div class="tab-pane fade" id="payment-tab" role="tabpanel" aria-labelledby="payment-nav">
+            <div class="col-sm-7 col-md-7">
+              <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                  ×</button>
+                <span class="glyphicon glyphicon-info-sign"></span> <strong>Message From Seller</strong>
+
+                <hr class="message-inner-separator">
+                <p>
+                  {% for message in messages %}
+                  <p class="text-left">{{message.real_message}} 
+                   
+                  </p>
+                  <p class="font-italic text-sm-right">--{{message.created_at}}</p>
+                  {% endfor %}</p>
+              </div>
+            </div>
+           
+            
+          
+          </div>
+
+
+
+
+          <div class="tab-pane fade" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
+            <h4>Account Details</h4>
+            <form method="post" action="{% url 'update_acc'%}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6">
+                  <input class="form-control" type="text" value="{{customers.first_name}}" name="fname"
+                    placeholder="{{customers.first_name}}">
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control" type="text" value="{{customers.last_name}}" name="lname"
+                    placeholder="{{customers.last_name}}">
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control" type="text" value="{{user.phone_no}}" name="phone"
+                    placeholder="{{user.phone_no}}">
+                </div>
+
+                <!-- <div class="col-md-12">
+                <input class="form-control" type="text" placeholder="Address">
+              </div> -->
+                <div class="col-md-12">
+                  <button type="submit" class="btn">Update Account</button>
+            </form>
+            <br><br>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+
+{% endblock content %}

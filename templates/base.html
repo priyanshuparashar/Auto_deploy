@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>AUTOWORLD bharat auto solutions</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="eCommerce HTML Template Free Download" name="keywords">
+    <meta content="eCommerce HTML Template Free Download" name="description">
+
+    <!-- Favicon -->
+    <!-- <link href="img/favicon.ico" rel="icon"> -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS Libraries -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+     <link href="{% static 'lib/slick/slick.css' %}" rel="stylesheet">
+        <link href="{% static 'lib/slick/slick-theme.css' %}" rel="stylesheet"> 
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'styles/main.css' %}" rel="stylesheet">
+
+
+    <script type="text/javascript">
+        var user = '{{request.user}}'
+
+        function getToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getToken('csrftoken');
+    </script>
+</head>
+
+<body>
+{% include 'nav.html' %}
+<style>
+    div#google_translate_element div.goog-te-gadget-simple {
+        font-size: 14px;
+        font-family: Whitney,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+        font-weight: 600;
+    }
+
+    div#google_translate_element div.goog-te-gadget-simple {
+        background-color: #0f2027;
+    }
+
+    div#google_translate_element div.goog-te-gadget-simple a.goog-te-menu-value span {
+        pass
+        
+        
+    }
+
+    div#google_translate_element div.goog-te-gadget-simple a.goog-te-menu-value span{
+        color: white;
+        padding-right: 2px;
+    } 
+
+    div#google_translate_element div.goog-te-gadget-simple {
+        border: none;
+    }
+    div#google_translate_element div .goog-te-menu2-item {
+        background-color: deeppink;
+        border: none;
+    }
+    .goog-te-gadget img {
+    vertical-align: middle;
+    border: none;
+    display: none;
+}
+
+</style>
+
+
+<div id="google_translate_element">
+
+
+</div>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+    }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    type="text/javascript"></script>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script>
+    function translate(lang) {
+
+        var $frame = $('.goog-te-menu-frame:first');
+        if (!$frame.size()) {
+            alert("Error: Could not find Google translate frame.");
+            return false;
+        }
+        $frame.contents().find('.goog-te-menu2-item span.text:contains(' + lang + ')').get(0).click();
+        return false;
+    }
+</script>
+<!-- <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+            { pageLanguage: 'en' },
+            'google_translate_element'
+        );
+    }
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?
+		cb=googleTranslateElementInit">
+        </script> -->
+
+        
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Make an Enquiry</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="{% url 'contact' %}" >
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputEmail1">Name</label>
+              <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name">
+            </div>
+  
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+  
+            <div class="form-group">
+              <label for="exampleInputEmail1">Phone no.</label>
+              <input type="phone" name="phone_no" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Phone">
+            </div>
+  
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Message</label>
+              <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+  
+          
+            <button type="submit" class="btn btn-primary">Submit</button>
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+{% block content %}
+
+
+
+{% endblock %}
+
+
+{% include 'footer.html' %}
+
+
+
+
+
+    
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+        <script src="{% static 'lib/slick/slick.min.js' %}"></script>
+        
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/cart.js' %}"></script>
+</body>
+
+</html>
+
+
+
+

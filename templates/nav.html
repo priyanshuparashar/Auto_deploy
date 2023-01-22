@@ -1,0 +1,113 @@
+{% load static %}
+{% block content %}
+<div class="top-bar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <i class="fa fa-envelope"></i>
+                <span class="phcll"><a href="mailto:sales@autoworldind.com">sales@autoworldind.com</a></span>
+                <i class="fa fa-phone-alt"></i><span> | </span>
+<style>
+    .phcll a{
+        color:white;
+    }
+</style>   
+<span class="phcll"> <a href="tel: +919302814372">Call me at  +91-93028-14372</a></span>
+            </div>
+            <div class="col-sm-6" id="google_translate_element">
+                   
+              
+             
+            </div>
+           
+            
+        </div>
+    </div>
+</div>
+<!-- Top bar End -->
+
+<!-- Nav Bar Start -->
+<div class="nav">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-md  navbar-dark">
+            <a href="#" class="navbar-brand">MENU</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav mr-auto">
+                    <a href="{% url 'home' %}" class="nav-item nav-link active">Home</a>
+                    <a href="{% url 'about' %}" class="nav-item nav-link ">About</a>
+                    <a href="{% url 'products' %}" class="nav-item nav-link">Products</a>
+                    <a href="{% url 'cart' %}" class="nav-item nav-link">Cart</a>
+                    <a href="{% url 'user_profile' %}" class="nav-item nav-link">My Account</a>
+                    {% if  request.user.is_authenticated %}
+                    <a href="{% url 'support' %}" class="nav-item nav-link ">Support</a>
+                    {% endif %}
+                    
+                    <!-- Button trigger modal -->
+<button type="button" class="btnc" data-toggle="modal" data-target="#exampleModal">
+    CONTACT US
+  </button>
+                    
+                </div>
+                <div class="navbar-nav ml-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-user" aria-hidden="true"></i>{% if request.user.is_authenticated %} {{user}} {% endif %} {% if not request.user.is_authenticated %} Guest{% endif %}</a>
+                        <div class="dropdown-menu">
+                            {% if not request.user.is_authenticated %}
+                            <a href="{% url 'account_signup' %}" class="dropdown-item">Login</a>
+                            {% endif %}
+                            <!-- <a href="{% url 'loginr' %}" class="dropdown-item">Login</a> -->
+                            {% if request.user.is_authenticated %}
+                            <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Nav Bar End -->
+
+<!-- Bottom Bar Start -->
+<div class="bottom-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <div class="logo">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'img/logo.png' %}" alt="Logo">
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <!-- <form method="GET" action="">
+                    <div class="product-search">
+                        <input name="q" type="text" value="" placeholder="ex: bus">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </form> -->
+                <form method="GET" action="{% url 'products' %}">
+                <div class="search">
+                    <input name="q" type="text" value="" placeholder="ex: bus">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+                </form>
+            </div>
+            <div class="col-md-3">
+                <div class="user">
+                  
+                    <a href="{% url 'cart' %}" class="btn cart">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span>( {{cartItems}} )</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
